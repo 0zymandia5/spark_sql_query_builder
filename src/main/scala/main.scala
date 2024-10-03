@@ -7,7 +7,7 @@ object main {
     def main(args: Array[String]): Unit = {
         try {
             val query_builder_cntrol = new queryBuilderCntrol();
-            val mapQueries : Map[String, List[Any]] = constants.queryMap("query_sample_1");
+            val mapQueries : Map[String, List[Any]] = constants.queryMap("query_err_1");
             val query : String = query_builder_cntrol.build_query(mapQueries);
             println(s"Query to execute : ${query}");
         } catch {

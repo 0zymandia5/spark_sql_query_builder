@@ -39,7 +39,23 @@ object constants {
         "join"-> List[Any](
             ("names","n")
         )
-      )
+      ),
+      "query_err_1" -> Map(
+        "select"-> List[Any](
+            ("geo", "GEO_NAME"),
+            ("mkt", "MARKET_NAME"),
+            "COUNTRY_NAME"
+        ),
+        "from"-> List[Any](
+            ("Hierarchy","h")
+        ),
+        "on"-> List[Any](
+            ("h.name","=","n.name")
+        ),
+        "join"-> List[Any](
+            ("names","n")
+        )
+      ),
   );
 }
 
