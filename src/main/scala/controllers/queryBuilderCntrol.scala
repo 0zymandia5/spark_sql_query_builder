@@ -17,18 +17,19 @@ class queryBuilderCntrol {
      * <H1>def validate_query_sequence</h1>
      * This functions just validates the secuency of the keys on the query maps
      *  
-     * @param queryKeys : Array[String] := 
-     * @param next_key : String := 
+     * @param queryKeys : Array[String] := Array which contains all query keys in the correct order
+     * @param next_key : String  
+     * @param prev_key : String 
      * @return Unit
   */
-  def validate_query_sequence(queryKeys : Array[String], next_key : String): Unit = {
+  def validate_query_sequence(queryKeys : Array[String], next_key : String, prev_key : String): Unit = {
     try {
-      if(next_key != "end" && queryKeys.contains(next_key) && hierarchy_query_map.get(next_key).nonEmpty){
+      if(next_key != "end" && queryKeys.contains(next_key) && hierarchy_query_map.get(next_key).get(0).nonEmpty){
         query_secuency.add(next_key);
         for (possible_nxt_key <- hierarchy_query_map.get(next_key)){
-          validate_query_sequence(queryKeys, possible_nxt_key.head);
+          validate_query_sequence(queryKeys, possible_nxt_key.head, next_key);
         }// for closure
-      }else if(next_key != "end"){
+      }else if(next_key != "end" && !hierarchy_query_map.get(prev_key).exists(_.contains("end"))){
         query_secuency.clear();
       }// else closure
     } catch {
@@ -46,7 +47,9 @@ class queryBuilderCntrol {
   def build_query(queryMap2Build : Map[String, List[Any]]): String = {
     try {
       var queryString : String = "";
-      validate_query_sequence(queryMap2Build.keys.toArray ,"select");
+      var prev_key : String = "";
+      var next_key : String = "select";
+      validate_query_sequence(queryMap2Build.keys.toArray, next_key, prev_key);
       if (query_secuency.isEmpty()){
         queryString="Error building the query"
       }else{
